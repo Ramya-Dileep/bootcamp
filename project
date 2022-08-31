@@ -1,0 +1,24 @@
+const express=require("express")
+const app= express()
+const port= 5003
+const route=require('./Routes/crud')
+const db= require('./dbproject')
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+const morgan = require('morgan')
+// const { exist } = require("joi")
+app.use(morgan('dev'));
+// DB connection
+db.connect((err,res)=>{
+    if(!err){
+        console.log("DB connected")
+    }
+    else{
+        console.log(err)
+    }
+})
+
+app.use('/',route)
+app.listen(port,()=>{
+    console.log("Server is Running")
+})
